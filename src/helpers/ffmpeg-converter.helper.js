@@ -31,8 +31,8 @@ const ffmpegConverter = async (
       title: req.body?.title,
       description: req.body?.description,
       thumbnail: req?.files?.thumbnail?.[0]?.path,
-      tags: req.body?.tags,
-      category_id: req.body?.category_id,
+      tags: req.body?.tags || 'other',
+      category_id: req.body?.category_id || 9,
       videoType: 0,
       duration: formatDuration(duration),
       size,
@@ -317,7 +317,7 @@ const ffmpegConverter = async (
                   })
                   .on("end", async () => {
                     await newVideo.update({
-                      [`p${resolutionSize}`]: 1,
+                      [`${resolutionSize}p`]: 1,
                     });
                     if (index === resolutionArr?.length - 1) {
                       // socket.disconnect();
